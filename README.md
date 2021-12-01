@@ -35,7 +35,7 @@ This name is also used to set the property of message payload `ubidotsDeviceLabe
 
 `MQTT_BROKER_IP`: IP address of your pi, laptop where the MQTT broker is running. Example: `192.68.1.80`
 
-`MQTT_BROKER_NAME`: Local name of the MQTT broker as displayed within the `nde-red` UI. Example: `mqtt-mac`
+`MQTT_BROKER_NAME`: Local name of the MQTT broker as displayed within the `ndoe-red` UI. Example: `mqtt-mac`
 
 `LITTLEBOCK_API`: digits to be passed to the API endpoint `/api/log/ispindle/1111/2222` and used to call the server `www.litlebock.fr`. Example: `1111/22222`
 
