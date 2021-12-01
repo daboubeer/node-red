@@ -99,7 +99,7 @@
         "type": "function",
         "z": "a490cb4b563e3faf",
         "name": "enrich_messages",
-        "func": "var deviceLabel = env.get('DEVICE_NAME')\nvar label, new_payload\nvar topic_prefix = \"ispindel/\" + deviceLabel\n\nnode.log(\"Topic prefix:\" + topic_prefix)\nnode.log(\"Message topic:\" + msg.topic)\n\nswitch (msg.topic) {\n    case topic_prefix + \"/tilt\":\n      label = \"tilt\";\n      new_payload = {[label]: parseFloat(msg.payload)};\n    break;\n    \n    case topic_prefix + \"/battery\":\n      label = \"battery\";\n      new_payload = {[label]: parseFloat(msg.payload)};\n    break;\n    \n    case topic_prefix + \"/temperature\":\n      label = \"temperature\";\n      new_payload = {[label]: parseFloat(msg.payload)};\n    break;\n    \n    case topic_prefix + \"/gravity\":\n      label = \"gravity\";\n      new_payload = {[label]: parseFloat(msg.payload)};\n    break;\n    \n    case topic_prefix + \"/RSSI\":\n      label = \"RSSI\";\n      new_payload = {[label]: parseFloat(msg.payload)};\n    break;\n\n    case topic_prefix + \"/interval\":\n      label = \"interval\";\n      new_payload = {[label]: parseFloat(msg.payload)};\n    break; \n    \n    case topic_prefix + \"/temp_units\":\n      label = \"temp_units\";\n      // new_payload = {[label]: {value: msg.payload}};\n      new_payload = {[label]: {value: 1, context: {units: \"°C\"}}}\n    break;     \n}\n\n\nmsg.topic = label      \nmsg.payload = new_payload\nmsg.payload.ubidotsDeviceLabel = deviceLabel\n\n// node.log(\"Device name: \" + env.get('DEVICE_NAME'))\n\nnode.log(\"Payload: \" + JSON.stringify(new_payload))\nnode.log(\"Topic : \" + msg.topic)\n      \nreturn msg;",
+        "func": "var deviceLabel = env.get('DEVICE_NAME')\nvar label, new_payload\nvar topic_prefix = \"ispindel/\" + deviceLabel\n\n//node.log(\"Topic prefix:\" + topic_prefix)\n//node.log(\"Message topic:\" + msg.topic)\n\nswitch (msg.topic) {\n    case topic_prefix + \"/tilt\":\n      label = \"tilt\";\n      new_payload = {[label]: parseFloat(msg.payload)};\n    break;\n    \n    case topic_prefix + \"/battery\":\n      label = \"battery\";\n      new_payload = {[label]: parseFloat(msg.payload)};\n    break;\n    \n    case topic_prefix + \"/temperature\":\n      label = \"temperature\";\n      new_payload = {[label]: parseFloat(msg.payload)};\n    break;\n    \n    case topic_prefix + \"/gravity\":\n      label = \"gravity\";\n      new_payload = {[label]: parseFloat(msg.payload)};\n    break;\n    \n    case topic_prefix + \"/RSSI\":\n      label = \"RSSI\";\n      new_payload = {[label]: parseFloat(msg.payload)};\n    break;\n\n    case topic_prefix + \"/interval\":\n      label = \"interval\";\n      new_payload = {[label]: parseFloat(msg.payload)};\n    break; \n    \n    case topic_prefix + \"/temp_units\":\n      label = \"temp_units\";\n      // new_payload = {[label]: {value: msg.payload}};\n      new_payload = {[label]: {value: 1, context: {units: \"°C\"}}}\n    break;     \n}\n\n\nmsg.topic = label      \nmsg.payload = new_payload\nmsg.payload.ubidotsDeviceLabel = deviceLabel\n\n// node.log(\"Device name: \" + env.get('DEVICE_NAME'))\n// node.log(\"Payload: \" + JSON.stringify(new_payload))\n// node.log(\"Topic : \" + msg.topic)\n      \nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -250,7 +250,7 @@
         "type": "function",
         "z": "a490cb4b563e3faf",
         "name": "gravity-to-sg",
-        "func": "var density = 1+(msg.payload.gravity/(258.6-((msg.payload.gravity/258.2)*227.1)))\n\nnode.log(\"#### Density: \" + density)\n\nmsg.payload.density = density\nreturn msg;",
+        "func": "var density = 1+(msg.payload.gravity/(258.6-((msg.payload.gravity/258.2)*227.1)))\n\nnode.log(\"#### Density: \" + density)\n\nmsg.payload.density = density\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -261,7 +261,8 @@
         "wires": [
             [
                 "d1d642a53b8169ed",
-                "9882cb140721248b"
+                "9882cb140721248b",
+                "0aedd0ec3fe72c30"
             ]
         ]
     },
@@ -355,6 +356,22 @@
         "senderr": false,
         "x": 930,
         "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0aedd0ec3fe72c30",
+        "type": "file",
+        "z": "a490cb4b563e3faf",
+        "name": "",
+        "filename": "ispindle.txt",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 930,
+        "y": 120,
         "wires": [
             []
         ]
