@@ -14,6 +14,8 @@ Before to start the flow locally:
 - Install [node-red](https://nodered.org/) and 
 - Deploy [mosquitto](http://mosquitto.org/) as MQTT broker
 
+![image](flow.png)
+
 Edit the mosquitto config file (e.g: /usr/local/etc/mosquitto/mosquitto.conf) to append the following 2 parameters
 supporting to access the broker without user/pwd and to use non localhost as hostname
 ```
