@@ -90,7 +90,7 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 930,
+        "x": 950,
         "y": 180,
         "wires": []
     },
@@ -262,7 +262,7 @@
             [
                 "d1d642a53b8169ed",
                 "9882cb140721248b",
-                "0aedd0ec3fe72c30"
+                "ba1f73c4fd4aba47"
             ]
         ]
     },
@@ -365,15 +365,34 @@
         "type": "file",
         "z": "a490cb4b563e3faf",
         "name": "",
-        "filename": "ispindle.txt",
+        "filename": "",
         "appendNewline": true,
         "createDir": false,
         "overwriteFile": "false",
         "encoding": "none",
-        "x": 930,
+        "x": 1140,
         "y": 120,
         "wires": [
             []
+        ]
+    },
+    {
+        "id": "ba1f73c4fd4aba47",
+        "type": "function",
+        "z": "a490cb4b563e3faf",
+        "name": "Set-fileName",
+        "func": "function formatDate(date) {\n    var d = new Date(date),\n        month = '' + (d.getMonth() + 1),\n        day = '' + d.getDate(),\n        year = d.getFullYear();\n\n    if (month.length < 2) month = '0' + month;\n    if (day.length < 2) day = '0' + day;\n\n    return [day, month, year].join('-');\n}\nvar tempString =formatDate(Date().toString());\n\nvar tempString1 = \"ispindle_\";\nvar tempString2 = tempString1.concat(tempString);\nvar finalPath = tempString2.concat(\".txt\");\n\nmsg.filename=finalPath;\nnode.log(\"Path: \" + msg.filename)\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 930,
+        "y": 120,
+        "wires": [
+            [
+                "0aedd0ec3fe72c30"
+            ]
         ]
     },
     {
