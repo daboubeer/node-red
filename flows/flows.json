@@ -51,7 +51,7 @@
         "device_label": "MacDabou_x",
         "tier": "educational",
         "tls_checkbox": true,
-        "x": 910,
+        "x": 1130,
         "y": 140,
         "wires": []
     },
@@ -68,45 +68,28 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 90,
-        "y": 180,
+        "x": 70,
+        "y": 280,
         "wires": [
             [
-                "189e3da5981418b1",
-                "3055ca55823e5aa8"
+                "6984e53193650fad",
+                "189e3da5981418b1"
             ]
         ]
-    },
-    {
-        "id": "d1d642a53b8169ed",
-        "type": "debug",
-        "z": "a490cb4b563e3faf",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 910,
-        "y": 80,
-        "wires": []
     },
     {
         "id": "189e3da5981418b1",
         "type": "function",
         "z": "a490cb4b563e3faf",
         "name": "enrich_payload",
-        "func": "var deviceLabel = env.get('DEVICE_NAME')\nvar label, new_payload\nvar topic_prefix = \"ispindel/\" + deviceLabel\n\n//node.log(\"Topic prefix:\" + topic_prefix)\n//node.log(\"Message topic:\" + msg.topic)\n\nswitch (msg.topic) {\n    case topic_prefix + \"/tilt\":\n      label = \"tilt\";\n      new_payload = {[label]: parseFloat(msg.payload)};\n    break;\n    \n    case topic_prefix + \"/battery\":\n      label = \"battery\";\n      new_payload = {[label]: parseFloat(msg.payload)};\n    break;\n    \n    case topic_prefix + \"/temperature\":\n      label = \"temperature\";\n      new_payload = {[label]: parseFloat(msg.payload)};\n    break;\n    \n    case topic_prefix + \"/gravity\":\n      label = \"gravity\";\n      new_payload = {[label]: parseFloat(msg.payload)};\n    break;\n    \n    case topic_prefix + \"/RSSI\":\n      label = \"RSSI\";\n      new_payload = {[label]: parseFloat(msg.payload)};\n    break;\n\n    case topic_prefix + \"/interval\":\n      label = \"interval\";\n      new_payload = {[label]: parseFloat(msg.payload)};\n    break; \n    \n    case topic_prefix + \"/temp_units\":\n      label = \"temp_units\";\n      // new_payload = {[label]: {value: msg.payload}};\n      new_payload = {[label]: {value: 1, context: {units: \"°C\"}}}\n    break;     \n}\n\n\nmsg.topic = label      \nmsg.payload = new_payload\nmsg.payload.ubidotsDeviceLabel = deviceLabel\n\n// node.log(\"Device name: \" + env.get('DEVICE_NAME'))\n// node.log(\"Payload: \" + JSON.stringify(new_payload))\n// node.log(\"Topic : \" + msg.topic)\n      \nreturn msg;",
+        "func": "var deviceLabel = env.get('DEVICE_NAME')\nvar label, new_payload\nvar topic_prefix = \"ispindel/\" + deviceLabel\n\n//node.log(\"Topic prefix:\" + topic_prefix)\n//node.log(\"Message topic:\" + msg.topic)\n\nswitch (msg.topic) {\n    case topic_prefix + \"/tilt\":\n      label = \"tilt\";\n      new_payload = {[label]: parseFloat(msg.payload)};\n    break;\n    \n    case topic_prefix + \"/battery\":\n      label = \"battery\";\n      new_payload = {[label]: parseFloat(msg.payload)};\n    break;\n    \n    case topic_prefix + \"/temperature\":\n      label = \"temperature\";\n      new_payload = {[label]: parseFloat(msg.payload)};\n    break;\n    \n    case topic_prefix + \"/gravity\":\n      label = \"gravity\";\n      new_payload = {[label]: parseFloat(msg.payload)};\n    break;\n    \n    case topic_prefix + \"/RSSI\":\n      label = \"RSSI\";\n      new_payload = {[label]: parseFloat(msg.payload)};\n    break;\n\n    case topic_prefix + \"/interval\":\n      label = \"interval\";\n      new_payload = {[label]: parseFloat(msg.payload)};\n    break; \n    \n    case topic_prefix + \"/temp_units\":\n      label = \"temp_units\";\n      new_payload = {[label]: {value: 1, context: {units: \"°C\"}}}\n    break;     \n}\n\n\nmsg.topic = label      \nmsg.payload = new_payload\nmsg.payload.ubidotsDeviceLabel = deviceLabel\n\n// node.log(\"Device name: \" + env.get('DEVICE_NAME'))\n// node.log(\"Payload: \" + JSON.stringify(new_payload))\n// node.log(\"Topic : \" + msg.topic)\n      \nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 300,
-        "y": 140,
+        "x": 280,
+        "y": 120,
         "wires": [
             [
                 "05c0f15d683d6d25"
@@ -133,8 +116,8 @@
         "reduceInit": "",
         "reduceInitType": "",
         "reduceFixup": "",
-        "x": 490,
-        "y": 140,
+        "x": 470,
+        "y": 120,
         "wires": [
             [
                 "5cb2a16a39de19ee"
@@ -152,13 +135,12 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 690,
-        "y": 140,
+        "x": 650,
+        "y": 120,
         "wires": [
             [
-                "d1d642a53b8169ed",
-                "9882cb140721248b",
-                "ba1f73c4fd4aba47"
+                "ba1f73c4fd4aba47",
+                "e9480f1d1afd357e"
             ]
         ]
     },
@@ -182,11 +164,12 @@
         "reduceInit": "",
         "reduceInitType": "",
         "reduceFixup": "",
-        "x": 490,
-        "y": 200,
+        "x": 670,
+        "y": 280,
         "wires": [
             [
-                "f229f87756ad24aa"
+                "f229f87756ad24aa",
+                "474b499ea0ef06b1"
             ]
         ]
     },
@@ -195,14 +178,14 @@
         "type": "function",
         "z": "a490cb4b563e3faf",
         "name": "To littlebock",
-        "func": "var deviceLabel = env.get('DEVICE_NAME')\nvar deviceID = env.get('DEVICE_ID')\nvar topic_prefix = \"ispindel/\" + deviceLabel\n\nswitch (msg.topic) {\n    \n    case topic_prefix + \"/tilt\":\n      msg.topic = \"ispindel\";\n      msg.payload = {\"name\":deviceLabel,\"ID\":deviceID,\"angle\":msg.payload};\n    break;\n\n    case topic_prefix + \"/temperature\":\n      msg.topic = \"ispindel\";\n      msg.payload = {\"temperature\":msg.payload,};\n    break;\n\n    case topic_prefix + \"/battery\":\n      msg.topic = \"ispindel\";\n      msg.payload = {\"battery\":msg.payload,};   \n    break;\n\n    case topic_prefix + \"/gravity\":\n      msg.topic = \"ispindel\";\n      msg.payload = {\"gravity\":msg.payload,};\n    break;\n\n    case topic_prefix + \"/temp_units\":\n      msg.topic = \"ispindel\";\n      msg.payload = {\"temp_units\":msg.payload,};\n    break;\n \n    case topic_prefix + \"/interval\":\n      msg.topic = \"ispindel\";\n      msg.payload = {\"interval\":msg.payload,};\n    break;    \n\n    case topic_prefix + \"/RSSI\":\n      msg.topic = \"ispindel\";\n      msg.payload = {\"RSSI\":msg.payload,};\n    break;   \n   \n}\nreturn msg;",
+        "func": "var deviceLabel = env.get('DEVICE_NAME')\nvar deviceID = env.get('DEVICE_ID')\nvar topic_prefix = \"ispindel/\" + deviceLabel\n\nswitch (msg.topic) {\n    \n    case topic_prefix + \"/tilt\":\n      msg.topic = \"ispindel\";\n      msg.payload = {\"name\":deviceLabel,\"ID\":deviceID,\"angle\":msg.payload};\n    break;\n\n    case topic_prefix + \"/temperature\":\n      msg.topic = \"ispindel\";\n      msg.payload = {\"temperature\":msg.payload,};\n    break;\n\n    case topic_prefix + \"/battery\":\n      msg.topic = \"ispindel\";\n      msg.payload = {\"battery\":msg.payload,};   \n    break;\n\n    case topic_prefix + \"/gravity\":\n      msg.topic = \"ispindel\";\n      msg.payload = {\"gravity\":msg.payload,};\n    break;\n\n    case topic_prefix + \"/temp_units\":\n      msg.topic = \"ispindel\";\n      msg.payload = {\"temp_units\":msg.payload,};\n    break;\n \n    case topic_prefix + \"/interval\":\n      msg.topic = \"ispindel\";\n      msg.payload = {\"interval\":msg.payload,};\n    break;    \n\n    case topic_prefix + \"/RSSI\":\n      msg.topic = \"ispindel\";\n      msg.payload = {\"RSSI\":msg.payload,};\n    break;   \n   \n}\n\n//node.log(\"Littlebock API: www.littlebock.fr/api/log/ispindle/\" + env.get('LITTLEBOCK_API'))\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 290,
-        "y": 200,
+        "x": 470,
+        "y": 280,
         "wires": [
             [
                 "e697d9f197785ce2"
@@ -228,11 +211,11 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 710,
-        "y": 200,
+        "x": 890,
+        "y": 280,
         "wires": [
             [
-                "d2f22804ad0fc1fe"
+                "74177caa5b4a8413"
             ]
         ]
     },
@@ -244,16 +227,18 @@
         "method": "POST",
         "ret": "txt",
         "paytoqs": "query",
-        "url": "www.littlebock.fr/api/log/ispindle/${LITTLEBOCK_API}",
+        "url": "",
         "tls": "",
         "persist": false,
         "proxy": "",
         "authType": "",
         "senderr": false,
-        "x": 910,
-        "y": 200,
+        "x": 1330,
+        "y": 280,
         "wires": [
-            []
+            [
+                "1a78299f1a5b763a"
+            ]
         ]
     },
     {
@@ -266,10 +251,12 @@
         "createDir": false,
         "overwriteFile": "false",
         "encoding": "none",
-        "x": 1120,
-        "y": 20,
+        "x": 1100,
+        "y": 80,
         "wires": [
-            []
+            [
+                "a1fed0a59c57ebd4"
+            ]
         ]
     },
     {
@@ -283,8 +270,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 910,
-        "y": 20,
+        "x": 870,
+        "y": 80,
         "wires": [
             [
                 "0aedd0ec3fe72c30"
@@ -311,11 +298,12 @@
         "reduceInit": "",
         "reduceInitType": "",
         "reduceFixup": "",
-        "x": 490,
-        "y": 260,
+        "x": 670,
+        "y": 340,
         "wires": [
             [
-                "ba374e28ffa1cb91"
+                "ba374e28ffa1cb91",
+                "ceb6a292e7b8a564"
             ]
         ]
     },
@@ -330,8 +318,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 290,
-        "y": 260,
+        "x": 470,
+        "y": 340,
         "wires": [
             [
                 "40ce62a45f470f05"
@@ -357,8 +345,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 710,
-        "y": 260,
+        "x": 890,
+        "y": 340,
         "wires": [
             [
                 "0d5f2dad919fc1dc"
@@ -379,12 +367,10 @@
         "proxy": "",
         "authType": "",
         "senderr": false,
-        "x": 910,
-        "y": 260,
+        "x": 1090,
+        "y": 340,
         "wires": [
-            [
-                "ceb6a292e7b8a564"
-            ]
+            []
         ]
     },
     {
@@ -396,13 +382,141 @@
         "tosidebar": true,
         "console": false,
         "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 870,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "6984e53193650fad",
+        "type": "switch",
+        "z": "a490cb4b563e3faf",
+        "name": "Route",
+        "property": "RECIPIENTS",
+        "propertyType": "env",
+        "rules": [
+            {
+                "t": "cont",
+                "v": "littlebock",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "brewspy",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 250,
+        "y": 300,
+        "wires": [
+            [
+                "3055ca55823e5aa8"
+            ],
+            [
+                "b1b6b53b18a37d43"
+            ]
+        ]
+    },
+    {
+        "id": "e9480f1d1afd357e",
+        "type": "switch",
+        "z": "a490cb4b563e3faf",
+        "name": "check_if_we_send_to",
+        "property": "RECIPIENTS",
+        "propertyType": "env",
+        "rules": [
+            {
+                "t": "cont",
+                "v": "ubidots",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 900,
+        "y": 140,
+        "wires": [
+            [
+                "9882cb140721248b"
+            ]
+        ]
+    },
+    {
+        "id": "474b499ea0ef06b1",
+        "type": "debug",
+        "z": "a490cb4b563e3faf",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 870,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "a1fed0a59c57ebd4",
+        "type": "debug",
+        "z": "a490cb4b563e3faf",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1290,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "1a78299f1a5b763a",
+        "type": "debug",
+        "z": "a490cb4b563e3faf",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
         "complete": "true",
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1110,
-        "y": 300,
+        "x": 1490,
+        "y": 280,
         "wires": []
+    },
+    {
+        "id": "74177caa5b4a8413",
+        "type": "function",
+        "z": "a490cb4b563e3faf",
+        "name": "Set-Littlebock-url",
+        "func": "var littlebock_api=env.get('LITTLEBOCK_API')\nvar littlebock_server=\"www.littlebock.fr/api/log/ispindle/\"\n\nmsg.url=littlebock_server + littlebock_api;\nnode.log(\"Littlebock api: \" + msg.url)\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1110,
+        "y": 280,
+        "wires": [
+            [
+                "d2f22804ad0fc1fe"
+            ]
+        ]
     },
     {
         "id": "7a7b80bc5b5f285e",
@@ -466,7 +580,7 @@
         "expiry": "",
         "broker": "e7a90bd264380835",
         "x": 340,
-        "y": 100,
+        "y": 140,
         "wires": []
     },
     {
@@ -491,7 +605,7 @@
         "payload": "0.59",
         "payloadType": "num",
         "x": 110,
-        "y": 100,
+        "y": 140,
         "wires": [
             [
                 "426749d4375f8350"

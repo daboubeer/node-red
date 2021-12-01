@@ -10,8 +10,6 @@ The following `node-red flow` has been designed to:
   - [Brew Spy](https://brew-spy.com/how-to-ispindel.html)
 - Save the data within a local file named as `ispindel_dd-mm-yyyy.txt`
 
-**TODO**: Adapt the code to support to define where the data should be sent.
-
 ## How to play with it
 
 Before to start the flow locally:
@@ -47,7 +45,18 @@ to publish to different topics the data collected such as `ispindle/<DEVICE_NAME
 
 `BREW_SPY_TOKEN`: Brew Spy token.
 
-Define the env vars within the terminal
+**IMPORTANT**: As it possible that you do not want to send the data to all the recipients supported but the ones you want,
+then pass as ENV var the list of the recipients as showed hereafter
+
+```bash
+# Some examples. Just set one time the ENV var
+export RECIPIENTS="ubidots,littlebock"
+export RECIPIENTS="ubidots,littlebock,brewspy"
+export RECIPIENTS="littlebock"
+export RECIPIENTS=""
+```
+
+Define next the others env vars within the terminal
 ```bash
 export DEVICE_NAME="YOUR_ISPINDLE_NAME"
 export DEVICE_ID="YOUR_ISPINDLE_ID"
