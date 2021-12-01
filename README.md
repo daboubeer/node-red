@@ -4,8 +4,13 @@ The data (tilt, gravity, temperature, ...) collected by the IoT [ispindle](https
 
 The following `node-red flow` has been designed to:
 - Collect from a MQTT broker running on a laptop (or raspberry pi) the ispindle data
-- Post them on [ubidots](https://stem.ubidots.com/accounts/signin/) AND [littlebock](https:www.littlebock.fr)
+- Post them on:
+  - [ubidots](https://stem.ubidots.com/accounts/signin/)
+  - [littlebock](https:www.littlebock.fr)
+  - [Brew Spy](https://brew-spy.com/how-to-ispindel.html)
 - Save the data within a local file named as `ispindel_dd-mm-yyyy.txt`
+
+**TODO**: Adapt the code to support to define where the data should be sent.
 
 ## How to play with it
 
@@ -39,6 +44,8 @@ to publish to different topics the data collected such as `ispindle/<DEVICE_NAME
 `LITTLEBOCK_API`: digits to be passed to the API endpoint `/api/log/ispindle/1111/2222` and used to call the server `www.litlebock.fr`. Example: `1111/22222`
 
 `UBIDOTS_TOKEN`: Ubidots API TOKEN. Example: `BBF-xxxxxxxxxxxx`
+
+`BREW_SPY_TOKEN`: Brew Spy token.
 
 Define the env vars within the terminal
 ```bash

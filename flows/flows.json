@@ -8,9 +8,9 @@
         "env": []
     },
     {
-        "id": "8fa8e3c2f3159218",
+        "id": "2c0b5b63beddc525",
         "type": "tab",
-        "label": "ispindle-mqtt-littlebock-brewspy",
+        "label": "inject-msg-topics",
         "disabled": false,
         "info": "",
         "env": []
@@ -51,8 +51,8 @@
         "device_label": "MacDabou_x",
         "tier": "educational",
         "tls_checkbox": true,
-        "x": 930,
-        "y": 240,
+        "x": 910,
+        "y": 140,
         "wires": []
     },
     {
@@ -68,8 +68,8 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 110,
-        "y": 280,
+        "x": 90,
+        "y": 180,
         "wires": [
             [
                 "189e3da5981418b1",
@@ -90,38 +90,28 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 950,
-        "y": 180,
+        "x": 910,
+        "y": 80,
         "wires": []
     },
     {
         "id": "189e3da5981418b1",
         "type": "function",
         "z": "a490cb4b563e3faf",
-        "name": "enrich_messages",
+        "name": "enrich_payload",
         "func": "var deviceLabel = env.get('DEVICE_NAME')\nvar label, new_payload\nvar topic_prefix = \"ispindel/\" + deviceLabel\n\n//node.log(\"Topic prefix:\" + topic_prefix)\n//node.log(\"Message topic:\" + msg.topic)\n\nswitch (msg.topic) {\n    case topic_prefix + \"/tilt\":\n      label = \"tilt\";\n      new_payload = {[label]: parseFloat(msg.payload)};\n    break;\n    \n    case topic_prefix + \"/battery\":\n      label = \"battery\";\n      new_payload = {[label]: parseFloat(msg.payload)};\n    break;\n    \n    case topic_prefix + \"/temperature\":\n      label = \"temperature\";\n      new_payload = {[label]: parseFloat(msg.payload)};\n    break;\n    \n    case topic_prefix + \"/gravity\":\n      label = \"gravity\";\n      new_payload = {[label]: parseFloat(msg.payload)};\n    break;\n    \n    case topic_prefix + \"/RSSI\":\n      label = \"RSSI\";\n      new_payload = {[label]: parseFloat(msg.payload)};\n    break;\n\n    case topic_prefix + \"/interval\":\n      label = \"interval\";\n      new_payload = {[label]: parseFloat(msg.payload)};\n    break; \n    \n    case topic_prefix + \"/temp_units\":\n      label = \"temp_units\";\n      // new_payload = {[label]: {value: msg.payload}};\n      new_payload = {[label]: {value: 1, context: {units: \"°C\"}}}\n    break;     \n}\n\n\nmsg.topic = label      \nmsg.payload = new_payload\nmsg.payload.ubidotsDeviceLabel = deviceLabel\n\n// node.log(\"Device name: \" + env.get('DEVICE_NAME'))\n// node.log(\"Payload: \" + JSON.stringify(new_payload))\n// node.log(\"Topic : \" + msg.topic)\n      \nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 330,
-        "y": 240,
+        "x": 300,
+        "y": 140,
         "wires": [
             [
                 "05c0f15d683d6d25"
             ]
         ]
-    },
-    {
-        "id": "d1a744cf2741bc63",
-        "type": "comment",
-        "z": "a490cb4b563e3faf",
-        "name": "ispindle name",
-        "info": "The device name defined part of the ispindle configuration should match exactly the `DEVICE_NAME` of the topic\n\nexample:\n\nDEVICENAME=\"Ispindle001\"\n\n->\n\nTOPIC=\"ispindle/$DEVICENAME/#\"",
-        "x": 610,
-        "y": 40,
-        "wires": []
     },
     {
         "id": "05c0f15d683d6d25",
@@ -143,105 +133,11 @@
         "reduceInit": "",
         "reduceInitType": "",
         "reduceFixup": "",
-        "x": 530,
-        "y": 240,
+        "x": 490,
+        "y": 140,
         "wires": [
             [
                 "5cb2a16a39de19ee"
-            ]
-        ]
-    },
-    {
-        "id": "a9d9ffa86e798a29",
-        "type": "mqtt out",
-        "z": "a490cb4b563e3faf",
-        "name": "",
-        "topic": "ispindel/Ispindel001/tilt",
-        "qos": "2",
-        "retain": "",
-        "respTopic": "",
-        "contentType": "application/json",
-        "userProps": "",
-        "correl": "",
-        "expiry": "",
-        "broker": "e7a90bd264380835",
-        "x": 330,
-        "y": 40,
-        "wires": []
-    },
-    {
-        "id": "2e8bc76c70ad6df3",
-        "type": "inject",
-        "z": "a490cb4b563e3faf",
-        "name": "tilt",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "tilt",
-        "payload": "23.24",
-        "payloadType": "num",
-        "x": 110,
-        "y": 40,
-        "wires": [
-            [
-                "a9d9ffa86e798a29"
-            ]
-        ]
-    },
-    {
-        "id": "cf148097a0c4e7a4",
-        "type": "mqtt out",
-        "z": "a490cb4b563e3faf",
-        "name": "",
-        "topic": "ispindel/Ispindel001/gravity",
-        "qos": "2",
-        "retain": "",
-        "respTopic": "",
-        "contentType": "application/json",
-        "userProps": "",
-        "correl": "",
-        "expiry": "",
-        "broker": "e7a90bd264380835",
-        "x": 340,
-        "y": 100,
-        "wires": []
-    },
-    {
-        "id": "abb5f2116cea26f5",
-        "type": "inject",
-        "z": "a490cb4b563e3faf",
-        "name": "gravity",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "gravity",
-        "payload": "0.59",
-        "payloadType": "num",
-        "x": 110,
-        "y": 100,
-        "wires": [
-            [
-                "cf148097a0c4e7a4"
             ]
         ]
     },
@@ -256,8 +152,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 710,
-        "y": 240,
+        "x": 690,
+        "y": 140,
         "wires": [
             [
                 "d1d642a53b8169ed",
@@ -286,8 +182,8 @@
         "reduceInit": "",
         "reduceInitType": "",
         "reduceFixup": "",
-        "x": 530,
-        "y": 300,
+        "x": 490,
+        "y": 200,
         "wires": [
             [
                 "f229f87756ad24aa"
@@ -305,8 +201,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 310,
-        "y": 300,
+        "x": 290,
+        "y": 200,
         "wires": [
             [
                 "e697d9f197785ce2"
@@ -332,8 +228,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 730,
-        "y": 300,
+        "x": 710,
+        "y": 200,
         "wires": [
             [
                 "d2f22804ad0fc1fe"
@@ -354,8 +250,8 @@
         "proxy": "",
         "authType": "",
         "senderr": false,
-        "x": 930,
-        "y": 300,
+        "x": 910,
+        "y": 200,
         "wires": [
             []
         ]
@@ -370,8 +266,8 @@
         "createDir": false,
         "overwriteFile": "false",
         "encoding": "none",
-        "x": 1140,
-        "y": 120,
+        "x": 1120,
+        "y": 20,
         "wires": [
             []
         ]
@@ -387,8 +283,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 930,
-        "y": 120,
+        "x": 910,
+        "y": 20,
         "wires": [
             [
                 "0aedd0ec3fe72c30"
@@ -396,46 +292,56 @@
         ]
     },
     {
-        "id": "be7a25427e0208ae",
-        "type": "http request",
-        "z": "8fa8e3c2f3159218",
+        "id": "40ce62a45f470f05",
+        "type": "join",
+        "z": "a490cb4b563e3faf",
         "name": "",
-        "method": "POST",
-        "ret": "txt",
-        "paytoqs": true,
-        "url": "www.littlebock.fr/api/log/ispindle/XXXX/XXX",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "authType": "",
-        "x": 750,
-        "y": 140,
+        "mode": "custom",
+        "build": "merged",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "10",
+        "count": "",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 490,
+        "y": 260,
         "wires": [
             [
-                "9110dca72edfab7a"
+                "ba374e28ffa1cb91"
             ]
         ]
     },
     {
-        "id": "662530af97f32adf",
+        "id": "b1b6b53b18a37d43",
         "type": "function",
-        "z": "8fa8e3c2f3159218",
-        "name": "To littlebock",
-        "func": "switch (msg.topic) {\n\n    case \"ispindel/ispindel1/tilt\":\n    msg.topic = \"ispindel\";\n    msg.payload = {\"name\":\"iSpindel2\",\"ID\":4974102,\"angle\":msg.payload,};\n    break;\n\n    case \"ispindel/ispindel1/temperature\":\n    msg.topic = \"ispindel\";\n    msg.payload = {\"temperature\":msg.payload,};\n    break;\n\n    case \"ispindel/ispindel1/battery\":\n    msg.topic = \"ispindel\";\n    msg.payload = {\"battery\":msg.payload,};   \n    break;\n\n    case \"ispindel/ispindel1/gravity\":\n    msg.topic = \"ispindel\";\n    msg.payload = {\"gravity\":msg.payload,};\n    break;\n\n    case \"ispindel/ispindel1/temp_units\":\n    msg.topic = \"ispindel\";\n    msg.payload = {\"temp_units\":msg.payload,};\n    break;\n \n    case \"ispindel/ispindel1/interval\":\n    msg.topic = \"ispindel\";\n    msg.payload = {\"interval\":msg.payload,};\n    break;    \n\n    case \"ispindel/ispindel1/RSSI\":\n    msg.topic = \"ispindel\";\n    msg.payload = {\"RSSI\":msg.payload,};\n    break;   \n   \n}\nreturn msg;",
+        "z": "a490cb4b563e3faf",
+        "name": "To brewspy",
+        "func": "var brewSpyToken = get.env('BREW_SPY_TOKEN')\nvar deviceLabel = env.get('DEVICE_NAME')\nvar deviceID = env.get('DEVICE_ID')\n\nvar topic_prefix = \"ispindel/\" + deviceLabel\n\nswitch (msg.topic) {\n    \n    case topic_prefix + \"/tilt\":\n      msg.topic = \"ispindel\";\n      msg.payload = {\"name\":deviceLabel,\"token\":brewSpyToken,\"angle\":msg.payload,};\n    break;\n\n    case topic_prefix + \"temperature\":\n      msg.topic = \"ispindel\";\n      msg.payload = {\"temperature\":msg.payload,};\n    break;\n\n    case topic_prefix + \"battery\":\n      msg.topic = \"ispindel\";\n      msg.payload = {\"battery\":msg.payload,};   \n    break;\n\n    case topic_prefix + \"gravity\":\n      msg.topic = \"ispindel\";\n      msg.payload = {\"gravity\":msg.payload,};\n    break;\n\n    case topic_prefix + \"temp_units\":\n      msg.topic = \"ispindel\";\n      msg.payload = {\"temp_units\":msg.payload,};\n    break;\n \n    case topic_prefix + \"interval\":\n      msg.topic = \"ispindel\";\n      msg.payload = {\"interval\":msg.payload,};\n    break;    \n\n   case topic_prefix + \"RSSI\":\n      msg.topic = \"ispindel\";\n      msg.payload = {\"RSSI\":msg.payload,};\n    break;   \n   \n}\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 230,
-        "y": 140,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 290,
+        "y": 260,
         "wires": [
             [
-                "fb12b7df33282bc0"
+                "40ce62a45f470f05"
             ]
         ]
     },
     {
-        "id": "e58b9dbfb143fe7a",
+        "id": "ba374e28ffa1cb91",
         "type": "change",
-        "z": "8fa8e3c2f3159218",
+        "z": "a490cb4b563e3faf",
         "name": "",
         "rules": [
             {
@@ -451,18 +357,40 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 570,
-        "y": 140,
+        "x": 710,
+        "y": 260,
         "wires": [
             [
-                "be7a25427e0208ae"
+                "0d5f2dad919fc1dc"
             ]
         ]
     },
     {
-        "id": "9110dca72edfab7a",
+        "id": "0d5f2dad919fc1dc",
+        "type": "http request",
+        "z": "a490cb4b563e3faf",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "query",
+        "url": "www.brew-spy.com:80/api/ispindel/",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 910,
+        "y": 260,
+        "wires": [
+            [
+                "ceb6a292e7b8a564"
+            ]
+        ]
+    },
+    {
+        "id": "ceb6a292e7b8a564",
         "type": "debug",
-        "z": "8fa8e3c2f3159218",
+        "z": "a490cb4b563e3faf",
         "name": "",
         "active": false,
         "tosidebar": true,
@@ -472,142 +400,101 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 910,
-        "y": 140,
+        "x": 1110,
+        "y": 300,
         "wires": []
     },
     {
-        "id": "fb12b7df33282bc0",
-        "type": "join",
-        "z": "8fa8e3c2f3159218",
+        "id": "7a7b80bc5b5f285e",
+        "type": "mqtt out",
+        "z": "2c0b5b63beddc525",
         "name": "",
-        "mode": "custom",
-        "build": "merged",
-        "property": "payload",
-        "propertyType": "msg",
-        "key": "topic",
-        "joiner": "\\n",
-        "joinerType": "str",
-        "accumulate": false,
-        "timeout": "10",
-        "count": "",
-        "reduceRight": false,
-        "reduceExp": "",
-        "reduceInit": "",
-        "reduceInitType": "",
-        "reduceFixup": "",
-        "x": 390,
-        "y": 140,
-        "wires": [
-            [
-                "e58b9dbfb143fe7a"
-            ]
-        ]
+        "topic": "ispindel/Ispindel001/tilt",
+        "qos": "2",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "application/json",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "e7a90bd264380835",
+        "x": 330,
+        "y": 60,
+        "wires": []
     },
     {
-        "id": "2b3047d04e69121e",
-        "type": "function",
-        "z": "8fa8e3c2f3159218",
-        "name": "To BrewSpy",
-        "func": "switch (msg.topic) {\n\n    case \"ispindel/ispindel1/tilt\":\n    msg.topic = \"ispindel\";\n    msg.payload = {\"name\":\"iSpindel1\",\"token\":\"LETOKENBREWSPY\",\"angle\":msg.payload,};\n    break;\n\n    case \"ispindel/ispindel1/temperature\":\n    msg.topic = \"ispindel\";\n    msg.payload = {\"temperature\":msg.payload,};\n    break;\n\n    case \"ispindel/ispindel1/battery\":\n    msg.topic = \"ispindel\";\n    msg.payload = {\"battery\":msg.payload,};   \n    break;\n\n    case \"ispindel/ispindel1/gravity\":\n    msg.topic = \"ispindel\";\n    msg.payload = {\"gravity\":msg.payload,};\n    break;\n\n    case \"ispindel/ispindel1/temp_units\":\n    msg.topic = \"ispindel\";\n    msg.payload = {\"temp_units\":msg.payload,};\n    break;\n \n    case \"ispindel/ispindel1/interval\":\n    msg.topic = \"ispindel\";\n    msg.payload = {\"interval\":msg.payload,};\n    break;    \n\n    case \"ispindel/ispindel1/RSSI\":\n    msg.topic = \"ispindel\";\n    msg.payload = {\"RSSI\":msg.payload,};\n    break;   \n   \n}\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 227,
-        "y": 99,
-        "wires": [
-            [
-                "d3e56d225de10122"
-            ]
-        ]
-    },
-    {
-        "id": "ec4cfe283bb7e382",
-        "type": "change",
-        "z": "8fa8e3c2f3159218",
-        "name": "",
-        "rules": [
+        "id": "fc0dd0b20e4a818d",
+        "type": "inject",
+        "z": "2c0b5b63beddc525",
+        "name": "tilt",
+        "props": [
             {
-                "t": "set",
-                "p": "headers",
-                "pt": "msg",
-                "to": "{\"Content-Type\":\"application/json\"}",
-                "tot": "json"
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
             }
         ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 570,
-        "y": 100,
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "tilt",
+        "payload": "23.24",
+        "payloadType": "num",
+        "x": 110,
+        "y": 60,
         "wires": [
             [
-                "495f5912ad212fc7"
+                "7a7b80bc5b5f285e"
             ]
         ]
     },
     {
-        "id": "495f5912ad212fc7",
-        "type": "http request",
-        "z": "8fa8e3c2f3159218",
+        "id": "426749d4375f8350",
+        "type": "mqtt out",
+        "z": "2c0b5b63beddc525",
         "name": "",
-        "method": "POST",
-        "ret": "txt",
-        "paytoqs": true,
-        "url": "www.brew-spy.com:80/api/ispindel/",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "authType": "",
-        "x": 750,
-        "y": 100,
-        "wires": [
-            [
-                "930d7742cf3e37b2"
-            ]
-        ]
-    },
-    {
-        "id": "930d7742cf3e37b2",
-        "type": "debug",
-        "z": "8fa8e3c2f3159218",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "x": 910,
+        "topic": "ispindel/Ispindel001/gravity",
+        "qos": "2",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "application/json",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "e7a90bd264380835",
+        "x": 340,
         "y": 100,
         "wires": []
     },
     {
-        "id": "d3e56d225de10122",
-        "type": "join",
-        "z": "8fa8e3c2f3159218",
-        "name": "",
-        "mode": "custom",
-        "build": "merged",
-        "property": "payload",
-        "propertyType": "msg",
-        "key": "topic",
-        "joiner": "\\n",
-        "joinerType": "str",
-        "accumulate": false,
-        "timeout": "10",
-        "count": "",
-        "reduceRight": false,
-        "reduceExp": "",
-        "reduceInit": "",
-        "reduceInitType": "",
-        "reduceFixup": "",
-        "x": 390,
+        "id": "be7d6e9f5343db71",
+        "type": "inject",
+        "z": "2c0b5b63beddc525",
+        "name": "gravity",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "gravity",
+        "payload": "0.59",
+        "payloadType": "num",
+        "x": 110,
         "y": 100,
         "wires": [
             [
-                "ec4cfe283bb7e382"
+                "426749d4375f8350"
             ]
         ]
     }
