@@ -27,8 +27,9 @@ Open a terminal, start the MQTT broker (e.g: `brew services start mosquitto`)
 Next, configure the following ENV vars to specify different parameters as the:
 
 `DEVICE_NAME`: the name of the ispindle as defined using the ispindle `configuration` section. Example: `ispindle001`. This name is used by the IoT ispindle
-to publish to different topics the data collected such as `ispindle/<DEVICE_NAME>/#`. The `DEVICE_NAME` corresponds to the ispindle config name. This name is also used to set the property of 
-message payload `ubidotsDeviceLabel` to publish the data on `ubidots`
+to publish to different topics the data collected such as `ispindle/<DEVICE_NAME>/#`.
+The `DEVICE_NAME` corresponds to the ispindle config name.
+This name is also used to set the property of message payload `ubidotsDeviceLabel` to publish the data on `ubidots`
 
 `DEVICE_ID`: ID of the Arduino shipset as defined under the ispindle `information` section. Example: `11223344`
 
@@ -47,8 +48,7 @@ export DEVICE_ID="YOUR_ISPINDLE_ID"
 export UBIDOTS_TOKEN="YOUR_UBIDOTS_TOKEN"
 export MQTT_BROKER_IP="YOUR_MQTT_IP"
 export MQTT_BROKER_NAME="YOUR_MQTT_NAME"
-export LITTLEBOCK_API="YOUR_LITTLEBOCK_API" # Example: dddd/ddddd
-node-red -u ./flows
+export LITTLEBOCK_API="YOUR_LITTLEBOCK_API"
 ```
 When done, you can launch node-red using the project available under the folder `./flows`.
 ```bash
