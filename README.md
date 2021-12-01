@@ -2,12 +2,15 @@
 
 The data (tilt, gravity, temperature, ...) collected by the IoT [ispindle](https://www.ispindel.de/docs/README_en.html) can be forwarded to a server, MQTT broker, brewery web site, ...
 
-The following `node-red flow` has been designed to collect from a MQTT broker running on a laptop (or raspberry pi)
-the data which are then enriched in order to post them on [ubidots](https://stem.ubidots.com/accounts/signin/) or [littlebock](https:www.littlebock.fr)
+The following `node-red flow` has been designed to:
+- Collect from a MQTT broker running on a laptop (or raspberry pi) the ispindle data
+- Post them on [ubidots](https://stem.ubidots.com/accounts/signin/) AND [littlebock](https:www.littlebock.fr)
+- Save the data within a local file named as `ispindel_dd-mm-yyyy.txt`
 
 ## How to play with it
 
 Before to start the flow locally, install:
+- Configure your iSpindle to send the data to a MQTT broker (mosquitto,...)
 - [node-red](https://nodered.org/) and 
 - [mosquitto](http://mosquitto.org/) as MQTT broker
 
@@ -19,44 +22,32 @@ allow_anonymous true
 ```
 Open a terminal, start the MQTT broker (e.g: `brew services start mosquitto`)
 
-To be able to work with the `ubidots_out` node flow, it is needed to specify as `token` your own [Api Token](https://stem.ubidots.com/accounts/me/apiCredentials).
-So, edit the file `flows.json` and search about the type `ubidots_dots` and then change the field value of the `token`
-```json
-  {
-    "id": "9882cb140721248b",
-    "type": "ubidots_out",
-    "z": "a490cb4b563e3faf",
-    "name": "",
-    "token": "BBFF-xxxxxxxxTO_BE_CHANGEDxxxxxx",
-...
-```
-Change also within the `flows.json` file, the `mqtt-broker` object to specify the IP address (see `broker`) of your pi, laptop where the MQTT broker is running.
+Next, configure the following ENV vars to specify different parameters as the:
 
-**NOTE**: You can also change the name displayed within the node-red editor (e.g `mosquitto-mac`)
-```json
-  {
-    "id": "e7a90bd264380835",
-    "type": "mqtt-broker",
-    "name": "mosquitto-mac",
-    "broker": "192.168.1.90",
-    "port": "1883",
-...
-```
-When done, you can launch node-red using the project available under the folder `./flows`.
+`DEVICE_NAME`: the name of the ispindle as defined using the ispindle `configuration` section. Example: `ispindle001`. This name is used by the IoT ispindle
+to publish to different topics the data collected such as `ispindle/<DEVICE_NAME>/#`. The `DEVICE_NAME` corresponds to the ispindle config name. This name is also used to set the property of 
+message payload `ubidotsDeviceLabel` to publish the data on `ubidots`
+`DEVICE_ID`: ID of the Arduino shipset as defined under the ispindle `information` section. Example: `11223344`
+`MQTT_BROKER_IP`: IP address of your pi, laptop where the MQTT broker is running. Example: `192.68.1.80`
+`MQTT_BROKER_NAME`: Local name of the MQTT broker as displayed within the `nde-red` UI. Example: `mqtt-mac`
+`LITTLEBOCK_API`: digits to be passed to the API endpoint `/api/log/ispindle/1111/2222` and used to call the server `www.litlebock.fr`. Example: `1111/22222`
+`UBIDOTS_TOKEN`: Ubidots API TOKEN. Example: `BBF-xxxxxxxxxxxx`
 
-Use the following ENV vars to specify the: 
-`DEVICE_NAME` : the name of the ispindle as defined using the ispindle `configuration` section
-`DEVICE_ID` : ID of the Arduino shipset as defined under the ispindle `information` section
-
+Define the env vars within the terminal
 ```bash
-export DEVICE_NAME="Ispindel001"
-export DEVICE_ID="14559617"
+export DEVICE_NAME="YOUR_ISPINDLE_NAME"
+export DEVICE_ID="YOUR_ISPINDLE_ID"
+export UBIDOTS_TOKEN="YOUR_UBIDOTS_TOKEN"
+export MQTT_BROKER_IP="YOUR_MQTT_IP"
+export MQTT_BROKER_NAME="YOUR_MQTT_NAME"
+export LITTLEBOCK_API="YOUR_LITTLEBOCK_API" # Example: dddd/ddddd
 node-red -u ./flows
 ```
+When done, you can launch node-red using the project available under the folder `./flows`.
+```bash
+node-red -u ./flows
 
-**NOTE**: Don't forget to pass as parameter the device name to be used to report the data to `https://stem.ubidots.com/app/devices/` web page but also to 
-access properly the MQTT topics as by convention, ispindle will publish them using as topics name `ispindle/<DEVICE_NAME>/#` where `DEVICE_NAME` could be by example what you encoded within
-the ispindle config `Ispindel001` !!
+```
 
 ### Useful links
 
