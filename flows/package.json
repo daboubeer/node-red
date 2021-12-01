@@ -1,0 +1,14 @@
+{
+    "name": "dabou-beer",
+    "description": "A Node-RED Project",
+    "version": "0.0.1",
+    "dependencies": {
+        "ubidots-nodered": "~2.0.2"
+    },
+    "node-red": {
+        "settings": {
+            "flowFile": "flows.json",
+            "credentialsFile": "flows_cred.json"
+        }
+    }
+}
