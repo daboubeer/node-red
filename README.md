@@ -8,7 +8,7 @@ The following `node-red flow` has been designed to:
   - [ubidots](https://stem.ubidots.com/accounts/signin/)
   - [littlebock](https:www.littlebock.fr)
   - [Brew Spy](https://brew-spy.com/how-to-ispindel.html)
-  - Local influxdb
+  - Local [influxdb](https://www.influxdata.com/)
 - Save the data within a local file named as `ispindel_dd-mm-yyyy.txt`
 
 ![image](flow.png)
@@ -47,6 +47,10 @@ to publish to different topics the data collected such as `ispindle/<DEVICE_NAME
 
 `BREW_SPY_TOKEN`: Brew Spy token.
 
+`INFLUXDB_URL`: URL of the influxdb server. Example: `http://localhost:8086`
+
+`INFLUXDB_TOKEN`: [Token](https://docs.influxdata.com/influxdb/cloud/security/tokens/) needed to access influxdb v2.0. Optional
+
 **IMPORTANT**: As it possible that you do not want to send the data to all the recipients supported but the ones you want,
 then pass as ENV var the list of the recipients as showed hereafter
 
@@ -66,6 +70,7 @@ export UBIDOTS_TOKEN="YOUR_UBIDOTS_TOKEN"
 export MQTT_BROKER_IP="YOUR_MQTT_IP"
 export MQTT_BROKER_NAME="YOUR_MQTT_NAME"
 export LITTLEBOCK_API="YOUR_LITTLEBOCK_API"
+export INFLUXDB_URL="http://<IP_OR_HOSTNAME>:<PORT>"
 ```
 When done, you can launch node-red using the project available under the folder `./flows`.
 ```bash
