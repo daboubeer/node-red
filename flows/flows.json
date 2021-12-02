@@ -16,6 +16,14 @@
         "env": []
     },
     {
+        "id": "1d3f0d648ef4874b",
+        "type": "subflow",
+        "name": "Subflow 1",
+        "info": "",
+        "in": [],
+        "out": []
+    },
+    {
         "id": "e7a90bd264380835",
         "type": "mqtt-broker",
         "name": "${MQTT_BROKER_NAME}",
@@ -40,6 +48,20 @@
         "willPayload": "",
         "willMsg": {},
         "sessionExpiry": ""
+    },
+    {
+        "id": "959631424cf2ea5c",
+        "type": "influxdb",
+        "hostname": "193.168.1.90",
+        "port": "8086",
+        "protocol": "http",
+        "database": "database",
+        "name": "",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "2.0",
+        "url": "http://localhost:8086",
+        "rejectUnauthorized": false
     },
     {
         "id": "9882cb140721248b",
@@ -407,11 +429,16 @@
                 "t": "cont",
                 "v": "brewspy",
                 "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "influxdb",
+                "vt": "str"
             }
         ],
         "checkall": "true",
         "repair": false,
-        "outputs": 2,
+        "outputs": 3,
         "x": 250,
         "y": 300,
         "wires": [
@@ -420,6 +447,9 @@
             ],
             [
                 "b1b6b53b18a37d43"
+            ],
+            [
+                "1b53dad10bece38d"
             ]
         ]
     },
@@ -515,6 +545,43 @@
         "wires": [
             [
                 "d2f22804ad0fc1fe"
+            ]
+        ]
+    },
+    {
+        "id": "82cc31bb9dccdaaf",
+        "type": "influxdb out",
+        "z": "a490cb4b563e3faf",
+        "influxdb": "959631424cf2ea5c",
+        "name": "",
+        "measurement": "",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "s",
+        "retentionPolicyV18Flux": "",
+        "org": "dabeer",
+        "bucket": "ispindel",
+        "x": 760,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "1b53dad10bece38d",
+        "type": "function",
+        "z": "a490cb4b563e3faf",
+        "name": "To influxdb",
+        "func": "var deviceLabel = env.get('DEVICE_NAME')\nvar deviceID = env.get('DEVICE_ID')\nvar topic_prefix = \"ispindel/\" + deviceLabel\n\nswitch (msg.topic) {\n    \n    case topic_prefix + \"/tilt\":\n      msg.topic = \"ispindel\";\n      msg.payload = {\"name\":deviceLabel,\"ID\":deviceID,\"angle\":msg.payload};\n    break;\n\n    case topic_prefix + \"/temperature\":\n      msg.topic = \"ispindel\";\n      msg.payload = {\"temperature\":msg.payload,};\n    break;\n\n    case topic_prefix + \"/battery\":\n      msg.topic = \"ispindel\";\n      msg.payload = {\"battery\":msg.payload,};   \n    break;\n\n    case topic_prefix + \"/gravity\":\n      msg.topic = \"ispindel\";\n      msg.payload = {\"gravity\":msg.payload,};\n    break;\n\n    case topic_prefix + \"/temp_units\":\n      msg.topic = \"ispindel\";\n      msg.payload = {\"temp_units\":msg.payload,};\n    break;\n \n    case topic_prefix + \"/interval\":\n      msg.topic = \"ispindel\";\n      msg.payload = {\"interval\":msg.payload,};\n    break;    \n\n    case topic_prefix + \"/RSSI\":\n      msg.topic = \"ispindel\";\n      msg.payload = {\"RSSI\":msg.payload,};\n    break;   \n   \n}\n\nmsg.measurement=topic_prefix\n\n//node.log(\"Littlebock API: www.littlebock.fr/api/log/ispindle/\" + env.get('LITTLEBOCK_API'))\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 480,
+        "wires": [
+            [
+                "82cc31bb9dccdaaf"
             ]
         ]
     },

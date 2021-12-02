@@ -8,6 +8,7 @@ The following `node-red flow` has been designed to:
   - [ubidots](https://stem.ubidots.com/accounts/signin/)
   - [littlebock](https:www.littlebock.fr)
   - [Brew Spy](https://brew-spy.com/how-to-ispindel.html)
+  - Local influxdb
 - Save the data within a local file named as `ispindel_dd-mm-yyyy.txt`
 
 ![image](flow.png)
@@ -18,6 +19,7 @@ Before to start the flow locally:
 - Configure your iSpindle to send the data to a MQTT broker (mosquitto,...)
 - Install [node-red](https://nodered.org/) and 
 - Deploy [mosquitto](http://mosquitto.org/) as MQTT broker
+- Install [influxdb](https://www.influxdata.com/) (optional)
 
 Edit the mosquitto config file (e.g: /usr/local/etc/mosquitto/mosquitto.conf) to append the following 2 parameters
 supporting to access the broker without user/pwd and to use non localhost as hostname
@@ -76,3 +78,5 @@ node-red -u ./flows
 - node-red and ubidots: https://help.ubidots.com/en/articles/1440402-connect-node-red-with-ubidots
 - Connect `ispindle` to Littlebock, how to calibrate it: https://homebrewing.slammy.net/category/homebrewing/support/
 - How to build/debug the Arduino ispindle project: https://dle-dev.com/index.php/2020/10/02/vscode-et-platformio/
+- Cloud providers limitation: https://www.mikeandpen.net/beer/ispindel-influx-grafana/
+- influxdb, mosquitto, grafana on pi: https://gist.github.com/xoseperez/e23334910fb45b0424b35c422760cb87

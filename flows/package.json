@@ -3,6 +3,7 @@
     "description": "A Node-RED Project",
     "version": "0.0.1",
     "dependencies": {
+        "node-red-contrib-influxdb": "~0.6.1",
         "ubidots-nodered": "~2.0.2"
     },
     "node-red": {
