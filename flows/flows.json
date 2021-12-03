@@ -572,7 +572,7 @@
         "retentionPolicyV18Flux": "",
         "org": "daboubeer",
         "bucket": "Ispindel001",
-        "x": 700,
+        "x": 1120,
         "y": 480,
         "wires": []
     },
@@ -581,7 +581,7 @@
         "type": "function",
         "z": "a490cb4b563e3faf",
         "name": "To influxdb",
-        "func": "var deviceLabel = env.get('DEVICE_NAME')\nvar deviceID = env.get('DEVICE_ID')\n\nvar topic_prefix = \"ispindel/\" + deviceLabel\n\n//node.log(\"Message topic: \" + msg.topic)\n\nswitch (msg.topic) {\n    case topic_prefix + \"/tilt\":\n      label = \"tilt\";\n      new_payload = {\n          [label]: parseInt(msg.payload),\n          [\"name\"]: deviceLabel,\n          [\"ID\"]: deviceID\n      }       \n    break;\n\n    case topic_prefix + \"/temperature\":\n      // msg.payload = {\"temperature\":parseFloat(msg.payload),};\n     label = \"temperature\";\n      new_payload = {\n          [label]: parseFloat(msg.payload)\n      }\n    break;\n\n    case topic_prefix + \"/battery\":\n      //msg.payload = {\"battery\":parseFloat(msg.payload),}; \n     label = \"battery\";\n     new_payload = {\n          [label]: parseFloat(msg.payload)\n      }\n    break;\n\n    case topic_prefix + \"/gravity\":\n      //msg.payload = {\"gravity\":parseFloat(msg.payload),};\n     label = \"gravity\";\n     new_payload = {\n          [label]: parseFloat(msg.payload)\n      }\n    break;\n\n    case topic_prefix + \"/temp_units\":\n      label = \"temp_units\";\n      new_payload = {\n          [label]: msg.payload\n      }\n    break;\n \n    case topic_prefix + \"/interval\":\n      msg.topic = \"ispindel\";\n      label = \"interval\";\n      new_payload = {\n          [label]: msg.payload\n      }\n    break;    \n\n    case topic_prefix + \"/RSSI\":\n      label = \"RSSI\";\n      new_payload = {\n          [label]: msg.payload\n      }\n    break;   \n   \n}\n\nmsg.measurement = deviceLabel\nmsg.url = env.get('INFLUXDB_URL')\n\nmsg.topic = label\nmsg.payload = new_payload\n\nvar density = 1+(msg.payload.gravity/(258.6-((msg.payload.gravity/258.2)*227.1)))\nmsg.payload.density = density\n\nnode.log(\"#### Density: \" + density + \", gravity: \" + msg.payload.gravity + \", temperature: \" + msg.payload.temperature)\n\nreturn msg;",
+        "func": "var deviceLabel = env.get('DEVICE_NAME')\nvar deviceID = env.get('DEVICE_ID')\nvar density\nvar topic_prefix = \"ispindel/\" + deviceLabel\n\nswitch (msg.topic) {\n    case topic_prefix + \"/tilt\":\n      label = \"tilt\";\n      new_payload = {\n          [label]: parseInt(msg.payload),\n          [\"name\"]: deviceLabel,\n          [\"ID\"]: deviceID\n      }       \n    break;\n\n    case topic_prefix + \"/temperature\":\n     label = \"temperature\";\n      new_payload = {\n          [label]: parseFloat(msg.payload)\n      }\n    break;\n\n    case topic_prefix + \"/battery\":\n     label = \"battery\";\n     new_payload = {\n          [label]: parseFloat(msg.payload)\n      }\n    break;\n\n    case topic_prefix + \"/gravity\":\n     label = \"gravity\";\n     density = 1+(msg.payload/(258.6-((msg.payload/258.2)*227.1)))\n     new_payload = {\n          [label]: parseFloat(msg.payload),\n          [\"density\"]: parseFloat(density)\n      }\n    break;\n\n    case topic_prefix + \"/temp_units\":\n      label = \"temp_units\";\n      new_payload = {\n          [label]: msg.payload\n      }\n    break;\n \n    case topic_prefix + \"/interval\":\n      label = \"interval\";\n      new_payload = {\n          [label]: msg.payload\n      }\n    break;    \n\n    case topic_prefix + \"/RSSI\":\n      label = \"RSSI\";\n      new_payload = {\n          [label]: msg.payload\n      }\n    break;\n}\n\nmsg.measurement = deviceLabel\nmsg.url = env.get('INFLUXDB_URL')\n\nmsg.topic = label\nmsg.payload = new_payload\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -591,8 +591,7 @@
         "y": 480,
         "wires": [
             [
-                "82cc31bb9dccdaaf",
-                "724b314c8a9f71d5"
+                "983f67c16c240678"
             ]
         ]
     },
@@ -609,9 +608,57 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 670,
-        "y": 560,
+        "x": 1090,
+        "y": 580,
         "wires": []
+    },
+    {
+        "id": "983f67c16c240678",
+        "type": "join",
+        "z": "a490cb4b563e3faf",
+        "name": "",
+        "mode": "custom",
+        "build": "merged",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "5",
+        "count": "",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 650,
+        "y": 480,
+        "wires": [
+            [
+                "d5fb75d49cba30a3"
+            ]
+        ]
+    },
+    {
+        "id": "d5fb75d49cba30a3",
+        "type": "function",
+        "z": "a490cb4b563e3faf",
+        "name": "Log-density-gravity-temp",
+        "func": "\nnode.log(\"#### Density: \" + msg.payload.density + \", gravity: \" + msg.payload.gravity + \", temperature: \" + msg.payload.temperature)\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 870,
+        "y": 480,
+        "wires": [
+            [
+                "82cc31bb9dccdaaf",
+                "724b314c8a9f71d5"
+            ]
+        ]
     },
     {
         "id": "7a7b80bc5b5f285e",
