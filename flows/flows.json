@@ -60,8 +60,20 @@
         "usetls": false,
         "tls": "",
         "influxdbVersion": "2.0",
-        "url": "${INFLUXDB_URL}",
+        "url": "http://localhost:8086/",
         "rejectUnauthorized": false
+    },
+    {
+        "id": "2be7c8fd.d795c8",
+        "type": "influxdb",
+        "hostname": "127.0.0.1",
+        "port": "8086",
+        "protocol": "http",
+        "database": "catchpoint",
+        "name": "",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "1.x"
     },
     {
         "id": "9882cb140721248b",
@@ -90,8 +102,8 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 70,
-        "y": 280,
+        "x": 90,
+        "y": 240,
         "wires": [
             [
                 "6984e53193650fad",
@@ -151,7 +163,7 @@
         "type": "function",
         "z": "a490cb4b563e3faf",
         "name": "gravity-to-sg",
-        "func": "var density = 1+(msg.payload.gravity/(258.6-((msg.payload.gravity/258.2)*227.1)))\n\nnode.log(\"#### Density: \" + density)\n\nmsg.payload.density = density\n\nreturn msg;",
+        "func": "var density = 1+(msg.payload.gravity/(258.6-((msg.payload.gravity/258.2)*227.1)))\n\nnode.log(\"#### Density: \" + density + \", Temperature: \" + msg.payload.temperature)\n\nmsg.payload.density = density\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -276,9 +288,7 @@
         "x": 1100,
         "y": 80,
         "wires": [
-            [
-                "a1fed0a59c57ebd4"
-            ]
+            []
         ]
     },
     {
@@ -560,9 +570,9 @@
         "database": "database",
         "precisionV18FluxV20": "s",
         "retentionPolicyV18Flux": "",
-        "org": "dabeer",
-        "bucket": "ispindel",
-        "x": 720,
+        "org": "daboubeer",
+        "bucket": "Ispindel001",
+        "x": 700,
         "y": 480,
         "wires": []
     },
@@ -571,7 +581,7 @@
         "type": "function",
         "z": "a490cb4b563e3faf",
         "name": "To influxdb",
-        "func": "var deviceLabel = env.get('DEVICE_NAME')\nvar deviceID = env.get('DEVICE_ID')\nvar topic_prefix = \"ispindel/\" + deviceLabel\n\nswitch (msg.topic) {\n    \n    case topic_prefix + \"/tilt\":\n      msg.topic = \"ispindel\";\n      msg.payload = {\"name\":deviceLabel,\"ID\":deviceID,\"angle\":msg.payload};\n    break;\n\n    case topic_prefix + \"/temperature\":\n      msg.topic = \"ispindel\";\n      msg.payload = {\"temperature\":msg.payload,};\n    break;\n\n    case topic_prefix + \"/battery\":\n      msg.topic = \"ispindel\";\n      msg.payload = {\"battery\":msg.payload,};   \n    break;\n\n    case topic_prefix + \"/gravity\":\n      msg.topic = \"ispindel\";\n      msg.payload = {\"gravity\":msg.payload,};\n    break;\n\n    case topic_prefix + \"/temp_units\":\n      msg.topic = \"ispindel\";\n      msg.payload = {\"temp_units\":msg.payload,};\n    break;\n \n    case topic_prefix + \"/interval\":\n      msg.topic = \"ispindel\";\n      msg.payload = {\"interval\":msg.payload,};\n    break;    \n\n    case topic_prefix + \"/RSSI\":\n      msg.topic = \"ispindel\";\n      msg.payload = {\"RSSI\":msg.payload,};\n    break;   \n   \n}\n\nmsg.measurement=topic_prefix\nmsg.token=env.get('INFLUXDB_TOKEN')\nmsg.url=env.get('INFLUXDB_URL')\n\nnode.log(\"Influxdb token: \" + msg.token)\nnode.log(\"Influxdb url: \" + msg.url)\n\n//node.log(\"Littlebock API: www.littlebock.fr/api/log/ispindle/\" + env.get('LITTLEBOCK_API'))\n\nreturn msg;",
+        "func": "var deviceLabel = env.get('DEVICE_NAME')\nvar deviceID = env.get('DEVICE_ID')\n\nvar topic_prefix = \"ispindel/\" + deviceLabel\n\n//node.log(\"Message topic: \" + msg.topic)\n\nswitch (msg.topic) {\n    case topic_prefix + \"/tilt\":\n      label = \"tilt\";\n      new_payload = {\n          [label]: parseInt(msg.payload),\n          [\"name\"]: deviceLabel,\n          [\"ID\"]: deviceID\n      }       \n    break;\n\n    case topic_prefix + \"/temperature\":\n      // msg.payload = {\"temperature\":parseFloat(msg.payload),};\n     label = \"temperature\";\n      new_payload = {\n          [label]: parseFloat(msg.payload)\n      }\n    break;\n\n    case topic_prefix + \"/battery\":\n      //msg.payload = {\"battery\":parseFloat(msg.payload),}; \n     label = \"battery\";\n     new_payload = {\n          [label]: parseFloat(msg.payload)\n      }\n    break;\n\n    case topic_prefix + \"/gravity\":\n      //msg.payload = {\"gravity\":parseFloat(msg.payload),};\n     label = \"gravity\";\n     new_payload = {\n          [label]: parseFloat(msg.payload)\n      }\n    break;\n\n    case topic_prefix + \"/temp_units\":\n      label = \"temp_units\";\n      new_payload = {\n          [label]: msg.payload\n      }\n    break;\n \n    case topic_prefix + \"/interval\":\n      msg.topic = \"ispindel\";\n      label = \"interval\";\n      new_payload = {\n          [label]: msg.payload\n      }\n    break;    \n\n    case topic_prefix + \"/RSSI\":\n      label = \"RSSI\";\n      new_payload = {\n          [label]: msg.payload\n      }\n    break;   \n   \n}\n\nmsg.measurement = deviceLabel\nmsg.url = env.get('INFLUXDB_URL')\n\nmsg.topic = label\nmsg.payload = new_payload\n\n// node.log(\"Influxdb url: \" + msg.url)\n\n//msg.token=env.get('INFLUXDB_TOKEN')\n//node.log(\"Influxdb token: \" + msg.token)\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -581,9 +591,27 @@
         "y": 480,
         "wires": [
             [
-                "82cc31bb9dccdaaf"
+                "82cc31bb9dccdaaf",
+                "724b314c8a9f71d5"
             ]
         ]
+    },
+    {
+        "id": "724b314c8a9f71d5",
+        "type": "debug",
+        "z": "a490cb4b563e3faf",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 670,
+        "y": 560,
+        "wires": []
     },
     {
         "id": "7a7b80bc5b5f285e",
