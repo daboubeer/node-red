@@ -1,3 +1,0 @@
-{"tilt":23.69048,"ubidotsDeviceLabel":"Ispindel001","temperature":11.3125,"temp_units":{"value":1,"context":{"units":"°C"}},"battery":3.983316,"gravity":0.809826,"interval":120,"RSSI":-64,"density":1.0031402271096543}
-{"tilt":23.69796,"ubidotsDeviceLabel":"Ispindel001","temperature":11.25,"temp_units":{"value":1,"context":{"units":"°C"}},"battery":3.983316,"gravity":0.813425,"interval":120,"RSSI":-64,"density":1.0031542215128804}
-{"tilt":23.68491,"ubidotsDeviceLabel":"Ispindel001","temperature":11.25,"temp_units":{"value":1,"context":{"units":"°C"}},"battery":3.983316,"gravity":0.807148,"interval":120,"RSSI":-64,"density":1.003129814158966}

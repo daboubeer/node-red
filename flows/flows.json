@@ -202,8 +202,7 @@
         "y": 280,
         "wires": [
             [
-                "f229f87756ad24aa",
-                "474b499ea0ef06b1"
+                "f229f87756ad24aa"
             ]
         ]
     },
@@ -501,7 +500,7 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 870,
+        "x": 1090,
         "y": 220,
         "wires": []
     },
@@ -581,7 +580,7 @@
         "type": "function",
         "z": "a490cb4b563e3faf",
         "name": "To influxdb",
-        "func": "var deviceLabel = env.get('DEVICE_NAME')\nvar deviceID = env.get('DEVICE_ID')\nvar density\nvar topic_prefix = \"ispindel/\" + deviceLabel\n\nswitch (msg.topic) {\n    case topic_prefix + \"/tilt\":\n      label = \"tilt\";\n      new_payload = {\n          [label]: parseInt(msg.payload),\n          [\"name\"]: deviceLabel,\n          [\"ID\"]: deviceID\n      }       \n    break;\n\n    case topic_prefix + \"/temperature\":\n     label = \"temperature\";\n      new_payload = {\n          [label]: parseFloat(msg.payload)\n      }\n    break;\n\n    case topic_prefix + \"/battery\":\n     label = \"battery\";\n     new_payload = {\n          [label]: parseFloat(msg.payload)\n      }\n    break;\n\n    case topic_prefix + \"/gravity\":\n     label = \"gravity\";\n     density = 1+(msg.payload/(258.6-((msg.payload/258.2)*227.1)))\n     new_payload = {\n          [label]: parseFloat(msg.payload),\n          [\"density\"]: parseFloat(density)\n      }\n    break;\n\n    case topic_prefix + \"/temp_units\":\n      label = \"temp_units\";\n      new_payload = {\n          [label]: msg.payload\n      }\n    break;\n \n    case topic_prefix + \"/interval\":\n      label = \"interval\";\n      new_payload = {\n          [label]: msg.payload\n      }\n    break;    \n\n    case topic_prefix + \"/RSSI\":\n      label = \"RSSI\";\n      new_payload = {\n          [label]: msg.payload\n      }\n    break;\n}\n\nmsg.measurement = deviceLabel\nmsg.url = env.get('INFLUXDB_URL')\n\nmsg.topic = label\nmsg.payload = new_payload\n\nreturn msg;",
+        "func": "var deviceLabel = env.get('DEVICE_NAME')\nvar deviceID = env.get('DEVICE_ID')\nvar density\nvar topic_prefix = \"ispindel/\" + deviceLabel\n\nswitch (msg.topic) {\n    case topic_prefix + \"/tilt\":\n      label = \"tilt\";\n      new_payload = {\n          [label]: parseInt(msg.payload),\n          [\"name\"]: deviceLabel,\n          [\"ID\"]: deviceID\n      }       \n    break;\n\n    case topic_prefix + \"/temperature\":\n     label = \"temperature\";\n      new_payload = {\n          [label]: parseFloat(msg.payload)\n      }\n    break;\n\n    case topic_prefix + \"/battery\":\n     label = \"battery\";\n     new_payload = {\n          [label]: parseFloat(msg.payload)\n      }\n    break;\n\n    case topic_prefix + \"/gravity\":\n     label = \"gravity\";\n     density = 1+(msg.payload/(258.6-((msg.payload/258.2)*227.1)))\n     new_payload = {\n          [label]: parseFloat(msg.payload),\n          [\"density\"]: parseFloat(density)\n      }\n    break;\n\n    case topic_prefix + \"/temp_units\":\n      label = \"temp_units\";\n      new_payload = {\n          [label]: msg.payload\n      }\n    break;\n \n    case topic_prefix + \"/interval\":\n      label = \"interval\";\n      new_payload = {\n          [label]: msg.payload\n      }\n    break;    \n\n    case topic_prefix + \"/RSSI\":\n      label = \"RSSI\";\n      new_payload = {\n          [label]: msg.payload\n      }\n    break;\n}\n\nmsg.measurement = deviceLabel\nmsg.url = env.get('INFLUXDB_URL')\n\nmsg.topic = deviceLabel\nmsg.payload = new_payload\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -655,8 +654,7 @@
         "y": 480,
         "wires": [
             [
-                "82cc31bb9dccdaaf",
-                "724b314c8a9f71d5"
+                "82cc31bb9dccdaaf"
             ]
         ]
     },
