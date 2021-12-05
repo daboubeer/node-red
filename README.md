@@ -24,8 +24,11 @@ Before to start the flow locally:
 Edit the mosquitto config file (e.g: /usr/local/etc/mosquitto/mosquitto.conf) to append the following 2 parameters
 supporting to access the broker without user/pwd and to use non localhost as hostname
 ```
+CONFIG_FILE=/usr/local/etc/mosquitto/mosquitto.conf
+cat <<EOF >> $CONFIG_FILE
 listener 1883
 allow_anonymous true
+EOF
 ```
 Open a terminal, start the MQTT broker (e.g: `brew services start mosquitto`)
 
