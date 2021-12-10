@@ -12,15 +12,15 @@ voir également vers des plateformes qui agrègent des données :
 
 Néanmoins, le iSpindle ne peut être configuré que pour envoyer ses données que sur une seule plateforme et ne peut en occurrence gérer des pertes de données si le site distant ne répond plus.
 
-Ce projet a été développé afin de palier à ces limitations en offrant la possibilité de router les données publiées sur un broker MQTT vers différents
-destinataires que vous pouvez paramétriser :
+Ce projet a été développé afin de palier à ces limitations en offrant la possibilité de récolter les données sur un broker MQTT et ensuite de router les données vers différents
+destinataires que vous pouvez paramétriser comme par exemple :
 
- - [ubidots](https://stem.ubidots.com/accounts/signin/)
+ - [Ubidots](https://ubidots.com/)
  - [littlebock](https:www.littlebock.fr)
  - [Brew Spy](https://brew-spy.com/how-to-ispindel.html)
- - Local [influxdb](https://www.influxdata.com/)
+ - [influxdb](https://www.influxdata.com/)
  
-Les données sont également sauvegardées dans un fichier localement et qui est nommé comme suit: `ispindel_dd-mm-yyyy.txt`
+**Note**: Les données sont également sauvegardées dans un fichier localement et qui est nommé comme suit: `ispindel_dd-mm-yyyy.txt`
 
 ![image](flow.png)
 
