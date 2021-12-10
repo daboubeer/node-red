@@ -3,12 +3,12 @@
 Les données collectées par le [ispindle](https://www.ispindel.de/docs/README_en.html) peuvent être envoyées vers un site qui gère vos recettes et/ou brassins 
 voir également vers des plateformes qui agrègent des données :
 
-. Brewfather
-. Little Bock
-. Grainfather
-. Ubidots
-. Blynk
-. Brew Spy
+- Brewfather
+- Little Bock
+- Grainfather
+- Ubidots
+- Blynk
+- Brew Spy
 
 Néanmoins, le iSpindle ne peut être configuré que pour envoyer ses données que sur une seule plateforme et ne peut en occurrence gérer des pertes de données si le site distant ne répond plus.
 
