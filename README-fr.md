@@ -26,19 +26,26 @@ destinataires que vous pouvez paramétriser comme par exemple :
 
 ## Comment utiliser l'outil !
 
-Avant de démarrer l' application localement, veillez à :
+Avant de démarrer l' application `node-red` localement, veillez à :
 
-- Configurer votre iSpindle pour envoyer les données vers le broker MQTT (mosquitto,...),
+- Configurer votre iSpindle pour envoyer les données vers le broker MQTT,
 - Installer les logiciels suivants:
   - [node-red](https://nodered.org/),
   - [mosquitto](http://mosquitto.org/),
   - [influxdb](https://www.influxdata.com/) (optional)
   - [Grafana](https://grafana.com/) (optional)
 
-TODO: Revoir ci-après 
+### Mosquitto
 
-Edit the mosquitto config file (e.g: /usr/local/etc/mosquitto/mosquitto.conf) to append the following 2 parameters
-supporting to access the broker without user/pwd and to use non localhost as hostname
+Le logiciel libre [Mosquitto](https://mosquitto.org/) de la fondation Eclipse est une application qui permet de 
+stocker dans des files des messages et ensuite de les dispatcher vers des clients connectés. Le protocole de transport
+des message et de communication supporté est [MQTT](https://mqtt.org/).
+
+TODO: Ajouter les instructions pour l'installer
+
+Ensuite, il faut éditer le fichier de configuration `mosquitto.conf` pour y ajouter les 2 options suivantes et ceci afin de permettre
+l' accès des clients de manière anonyme, non sécurisée afin que ceux-ci souscrivent aux files pour consommer les messages contenant les données deiSpindle.
+
 ```
 CONFIG_FILE=/usr/local/etc/mosquitto/mosquitto.conf
 cat <<EOF >> $CONFIG_FILE
@@ -46,7 +53,15 @@ listener 1883
 allow_anonymous true
 EOF
 ```
-Open a terminal, start the MQTT broker (e.g: `brew services start mosquitto`)
+
+Ouvrir sur votre ordinateur un terminal et démarrer le service `mosquitto`
+```bash
+systemctl start mosquitto
+```
+
+### Node-red
+
+TODO: !!
 
 Next, configure the following ENV vars to specify different parameters as the:
 
