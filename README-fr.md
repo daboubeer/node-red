@@ -61,42 +61,44 @@ systemctl start mosquitto
 
 ### Node-red
 
-TODO: !!
+Le routage des messages se fait via des routes ou flux qui sont géré(e)s par le logiciel `node-red`.
+Afin d' éviter de devoir éditer manuellement les flux pour configurer différentes options, des
+variables d' environnement ont été définies et vous permettront de configurer les paramètres suivants:
 
-Next, configure the following ENV vars to specify different parameters as the:
+`DEVICE_NAME`: le nom du `ispindle` comme défini via le menu `configuration` de l' interface que vous avez configuré via le réseau Wifi - iSpindle. Exemple : `ispindle001`. 
+Ce nom est utilisé par le logiciel du spindle pour publier les données sur différentes files, une par type de données `tilt,temperature,...`. Dès lors, les données seront récoltées par le broker sous 
+le chemin d'accès suivant `ispindle/<DEVICE_NAME>/#`. Le symbole `#` est utilisé pour indiquer le nom d' une des files
 
-`DEVICE_NAME`: the name of the ispindle as defined using the ispindle `configuration` section. Example: `ispindle001`. This name is used by the IoT ispindle
-to publish to different topics the data collected such as `ispindle/<DEVICE_NAME>/#`. 
-**NOTE**: This name is also used to set the property of message payload `ubidotsDeviceLabel` to publish the data on `ubidots`
+**Note**: Ce nom est aussi utilisé pour configurer la propriété `ubidotsDeviceLabel` quand les données sont publiées sur `ubidots`
 
-`DEVICE_ID`: ID of the Arduino shipset as defined under the ispindle `information` section. Example: `11223344`
+`DEVICE_ID`: ID du shipSet arduino comme défini dans la section `information` du ispindle. Exemple: `11223344`
 
-`MQTT_BROKER_IP`: IP address of your pi, laptop where the MQTT broker is running. Example: `192.68.1.80`
+`MQTT_BROKER_IP`: Adresse IP de votre ordinateur, RaspberryPI sur lequel le broker MQTT est en service. Exemple: `192.68.1.80`
 
-`MQTT_BROKER_NAME`: Local name of the MQTT broker as displayed within the `ndoe-red` UI. Example: `mqtt-mac`
+`MQTT_BROKER_NAME`: Nom local du broker MQTT comme défini dans l' interface graphique de `node-red` UI. Example: `mqtt-mac`. TODO: revoir cette ligne
 
-`LITTLEBOCK_API`: digits to be passed to the API endpoint `/api/log/ispindle/1111/2222` and used to call the server `www.litlebock.fr`. Example: `1111/22222`
+`LITTLEBOCK_API`: Identifiants de LittleBock utilisé pour confiurer le chemein ou API suivant `/api/log/ispindle/1111/2222` et utilisé pour appeler le serveur `www.litlebock.fr`. Exemple: `1111/22222`
 
-`UBIDOTS_TOKEN`: Ubidots API TOKEN. Example: `BBF-xxxxxxxxxxxx`
+`UBIDOTS_TOKEN`: API TOKEN d' Ubidots. Exemple: `BBF-xxxxxxxxxxxx`
 
-`BREW_SPY_TOKEN`: Brew Spy token.
+`BREW_SPY_TOKEN`: Token de Brew Spy.
 
-`INFLUXDB_URL`: URL of the influxdb server. Example: `http://localhost:8086`
+`INFLUXDB_URL`: URL serveur InfluxDB. Exemple: `http://localhost:8086`
 
-`INFLUXDB_TOKEN`: [Token](https://docs.influxdata.com/influxdb/cloud/security/tokens/) needed to access influxdb v2.0. Optional
+`INFLUXDB_TOKEN`: [Token](https://docs.influxdata.com/influxdb/cloud/security/tokens/) nécessaire pour être authentifé avec le serveur `influxdb v2.0`. TODO: Revoir cette ligne car le token doit malheureusement être ajouté via le UI node red et être codé en dur. 
 
-**IMPORTANT**: As it possible that you do not want to send the data to all the recipients supported but the ones you want,
-then pass as ENV var the list of the recipients as showed hereafter
+**IMPORTANT**: Comme il est possible que vous ne souhaitiez pas envoyer les données vers TOUS les destinataires, mais seulement ceux qui vous intéressent ou pour lequel(s) vous disposez d' un accès et identifiant, 
+utilisez à cette fin la variable d' environnement suivante :
 
 ```bash
-# Some examples. Just set one time the ENV var
+# Qqs examples
 export RECIPIENTS="ubidots,littlebock"
 export RECIPIENTS="ubidots,littlebock,brewspy"
 export RECIPIENTS="littlebock"
 export RECIPIENTS=""
 ```
 
-Define next the others env vars within the terminal
+Pour configurer les variables d'environnement, ouvrez un terminal et définisez-les: 
 ```bash
 export DEVICE_NAME="YOUR_ISPINDLE_NAME"
 export DEVICE_ID="YOUR_ISPINDLE_ID"
@@ -106,7 +108,7 @@ export MQTT_BROKER_NAME="YOUR_MQTT_NAME"
 export LITTLEBOCK_API="YOUR_LITTLEBOCK_API"
 export INFLUXDB_URL="http://<IP_OR_HOSTNAME>:<PORT>"
 ```
-When done, you can launch node-red using the project available under the folder `./flows`.
+ensuite, lancez le projet `node-red` et le flux/routage défini dans le répertoire `./flows`.
 ```bash
 node-red -u ./flows
 
@@ -114,8 +116,8 @@ node-red -u ./flows
 
 ### Liens utiles
 
-- node-red and ubidots: https://help.ubidots.com/en/articles/1440402-connect-node-red-with-ubidots
-- Connect `ispindle` to Littlebock, how to calibrate it: https://homebrewing.slammy.net/category/homebrewing/support/
-- How to build/debug the Arduino ispindle project: https://dle-dev.com/index.php/2020/10/02/vscode-et-platformio/
-- Cloud providers limitation: https://www.mikeandpen.net/beer/ispindel-influx-grafana/
-- influxdb, mosquitto, grafana on pi: https://gist.github.com/xoseperez/e23334910fb45b0424b35c422760cb87
+- node-red et ubidots: https://help.ubidots.com/en/articles/1440402-connect-node-red-with-ubidots
+- Connecter `ispindle` à Littlebock et comment le calibrer: https://homebrewing.slammy.net/category/homebrewing/support/
+- Comment débogger le projet Arduino ispindle: https://dle-dev.com/index.php/2020/10/02/vscode-et-platformio/
+- Limitation des fournisseurs cloud pour iSpindle: https://www.mikeandpen.net/beer/ispindel-influx-grafana/
+- Influxdb, mosquitto, grafana sur Raspberry pi: https://gist.github.com/xoseperez/e23334910fb45b0424b35c422760cb87
